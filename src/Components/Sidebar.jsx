@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 
 import styled from "styled-components";
+import { getBooks } from "../Redux/BookReducer/action";
 
 export const Sidebar = () => {
 
   const [sort, setSort] = useState(null);
   const [searchParams , setSearchParams] = useSearchParams()
+  const dispatch = useDispatch()
 
     const [catVal , setcatVal] = useState(searchParams.getAll("category") || [])
-  console.log()
+
 
     const paramObj = {
 
@@ -33,8 +36,9 @@ export const Sidebar = () => {
   }
 
   useEffect(()=>{
-      setSearchParams({category:catVal})
-  },[catVal])
+      // setSearchParams({category:catVal})
+      dispatch(getBooks(paramObj))
+  },[catVal,paramObj])
 
 
 
@@ -83,11 +87,14 @@ export const Sidebar = () => {
       <br />
       <h3>Sort By Release Year</h3>
       <div>
-        <input data-testid="sort-asc" type="radio" name="sort" value={"asc"} />
+        <input data-testid="sort-asc" type="radio" 
+        onClick={() => setSort("asc")}
+        name="sort" value={"asc"} />
         <label>Ascending</label>
         <br />
         <input
           data-testid="sort-desc"
+          onClick={() => setSort("desc")}
           type="radio"
           name="sort"
           value={"desc"}

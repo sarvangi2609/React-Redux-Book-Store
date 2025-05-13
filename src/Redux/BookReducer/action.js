@@ -3,10 +3,12 @@ import axios from "axios";
 import { PROSUCCESS } from "./actionTypes";
 
 
-export const getBooks = (dispatch) => {
+export const getBooks =(paramObj)=> (dispatch) => {
   // Write logic here
 
-  axios.get("http://localhost:8080/books")
+  axios.get("http://localhost:8080/books",{
+    params:paramObj
+  })
   .then((res)=>{
     console.log(res.data)
     dispatch({type:PROSUCCESS,payload:res.data})
